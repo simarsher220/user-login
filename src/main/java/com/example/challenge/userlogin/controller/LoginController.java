@@ -1,38 +1,48 @@
 package com.example.challenge.userlogin.controller;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.challenge.userlogin.dto.request.CreateUserRequest;
+import com.example.challenge.userlogin.dto.request.LoginRequest;
+import com.example.challenge.userlogin.dto.request.UpdateUserPasswordRequest;
+import com.example.challenge.userlogin.dto.response.*;
+import com.example.challenge.userlogin.error.exception.LoginException;
+import com.example.challenge.userlogin.error.exception.NotFoundException;
+import com.example.challenge.userlogin.service.LoginService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 @RestController
 public class LoginController {
 
-    @RequestMapping(value = "/api/user/{id}", method = RequestMethod.GET)
-    public void getUser(@PathVariable UUID id) {
+    @Autowired
+    private LoginService loginService;
 
+    @RequestMapping(value = "/api/user/{userId}", method = RequestMethod.GET)
+    public GetUserByIdResponse getUser(@PathVariable UUID userId) throws NotFoundException {
+        return loginService.getUser(userId);
     }
 
     @RequestMapping(value = "/api/users/register", method = RequestMethod.POST)
-    public void createUser() {
-
+    @ResponseStatus(HttpStatus.CREATED)
+    public CreateUserResponse createUser(@RequestBody CreateUserRequest userRequest) throws LoginException {
+        return loginService.createUser(userRequest);
     }
 
     @RequestMapping(value = "/api/users/login", method = RequestMethod.POST)
-    public void login() {
-
+    public LoginResponse login(@RequestBody LoginRequest loginRequest) throws LoginException {
+        return loginService.doLogin(loginRequest);
     }
 
     @RequestMapping(value = "/auth/secured", method = RequestMethod.GET)
-    public void getUserDetails() {
-
+    public CreateUserRequest getUserDetails(@RequestHeader("Authorization") String authorization) throws LoginException {
+        return loginService.getUserDetails(authorization);
     }
 
     @RequestMapping(value = "/api/user/updatePassword", method = RequestMethod.PUT)
-    public void updatePassword() {
-
+    public UpdateUserPasswordResponse updatePassword(@RequestBody UpdateUserPasswordRequest request, @RequestHeader("Authorization") String authorization) throws LoginException, Exception {
+        return loginService.updatePassword(request, authorization);
     }
 
 }
