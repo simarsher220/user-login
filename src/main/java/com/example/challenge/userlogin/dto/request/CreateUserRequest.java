@@ -1,4 +1,4 @@
-package com.example.challenge.userlogin.dto;
+package com.example.challenge.userlogin.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

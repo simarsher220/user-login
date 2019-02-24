@@ -1,9 +1,8 @@
-package com.example.challenge.userlogin.dto;
+package com.example.challenge.userlogin.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-@JsonRootName(value = "data")
 public class GetUserResponse {
 
     private String firstName;

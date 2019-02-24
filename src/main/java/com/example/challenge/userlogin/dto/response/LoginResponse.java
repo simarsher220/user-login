@@ -1,4 +1,4 @@
-package com.example.challenge.userlogin.dto;
+package com.example.challenge.userlogin.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
